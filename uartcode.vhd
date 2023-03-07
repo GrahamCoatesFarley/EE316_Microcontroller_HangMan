@@ -14,20 +14,22 @@
  entity uart is
      port (
          reset       :in  std_logic;
-         txclk       :in  std_logic;
-         ld_tx_data  :in  std_logic;
-         tx_data     :in  std_logic_vector (7 downto 0);
-         tx_enable   :in  std_logic;
-         tx_out      :out std_logic;
-         tx_empty    :out std_logic;
-         rxclk       :in  std_logic;
-         uld_rx_data :in  std_logic;
-         rx_data     :out std_logic_vector (7 downto 0);
-         rx_enable   :in  std_logic;
-         rx_in       :in  std_logic;
-         rx_empty    :out std_logic
+         txclk       :in  std_logic;    -- buad rate
+         ld_tx_data  :in  std_logic;   -- flag to set to load in data from upper level
+         tx_data     :in  std_logic_vector (7 downto 0);   -- data you send in from upper level
+         tx_enable   :in  std_logic;     -- enable to send data, set after load is high   -- might be ablet o leave hihg
+         tx_out      :out std_logic;   -- to the other system  
+         tx_empty    :out std_logic;    -- went through all data - can accept new data
+         rxclk       :in  std_logic;   -- buad rate
+         uld_rx_data :in  std_logic;    -- push data recieved into rx_data reg
+         rx_data     :out std_logic_vector (7 downto 0);   -- data that goes out of the module
+         rx_enable   :in  std_logic;   -- can keep high 
+         rx_in       :in  std_logic;    -- data coming from other system
+         rx_empty    :out std_logic    --  busy flag     enable for lcd to tell when to grab data 
      );
  end entity;
+ 
+ 
  architecture rtl of uart is
     -- Internal Variables
      signal tx_reg         :std_logic_vector (7 downto 0);
